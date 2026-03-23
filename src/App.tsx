@@ -6,16 +6,16 @@ import { CpoSchema } from './components/CpoSchema';
 import { AgentsView } from './components/AgentsView';
 import { OfferEngineView } from './components/OfferEngineView';
 
+const tabs = [
+  { id: 'graph', label: 'Execution Graph', icon: Network },
+  { id: 'pipelines', label: 'Pipelines', icon: GitMerge },
+  { id: 'cpo', label: 'CPO Schema', icon: Database },
+  { id: 'agents', label: 'AI Agents', icon: Cpu },
+  { id: 'offer-engine', label: 'Offer Engine', icon: DollarSign },
+];
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('graph');
-
-  const tabs = [
-    { id: 'graph', label: 'Execution Graph', icon: Network },
-    { id: 'pipelines', label: 'Pipelines', icon: GitMerge },
-    { id: 'cpo', label: 'CPO Schema', icon: Database },
-    { id: 'agents', label: 'AI Agents', icon: Cpu },
-    { id: 'offer-engine', label: 'Offer Engine', icon: DollarSign },
-  ];
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] text-gray-300 font-sans overflow-hidden">
