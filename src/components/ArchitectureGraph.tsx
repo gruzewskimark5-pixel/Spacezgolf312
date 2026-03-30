@@ -9,12 +9,31 @@ import {
   MarkerType,
   Handle,
   Position,
+  type NodeProps,
+  type Node,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Zap, Database, GitMerge, Cpu, Network } from 'lucide-react';
 
+interface TriggerNodeData {
+  label: string;
+}
+
+interface PipelineNodeData {
+  label: string;
+  tasks: string;
+}
+
+interface EventNodeData {
+  label: string;
+}
+
+interface AgentNodeData {
+  label: string;
+}
+
 // Custom Node Components
-const TriggerNode = ({ data }: any) => (
+const TriggerNode = ({ data }: NodeProps<Node<TriggerNodeData>>) => (
   <div className="px-4 py-2 shadow-lg rounded-md bg-[#1a1a1a] border border-orange-500/30 min-w-[150px]">
     <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-orange-500" />
     <div className="flex items-center gap-2">
@@ -24,7 +43,7 @@ const TriggerNode = ({ data }: any) => (
   </div>
 );
 
-const PipelineNode = ({ data }: any) => (
+const PipelineNode = ({ data }: NodeProps<Node<PipelineNodeData>>) => (
   <div className="px-4 py-3 shadow-lg rounded-md bg-[#1a1a1a] border border-blue-500/30 min-w-[200px]">
     <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-blue-500" />
     <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-blue-500" />
@@ -36,7 +55,7 @@ const PipelineNode = ({ data }: any) => (
   </div>
 );
 
-const EventNode = ({ data }: any) => (
+const EventNode = ({ data }: NodeProps<Node<EventNodeData>>) => (
   <div className="px-4 py-2 shadow-lg rounded-full bg-[#1a1a1a] border border-purple-500/30 min-w-[180px] text-center">
     <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-purple-500" />
     <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-purple-500" />
@@ -47,7 +66,7 @@ const EventNode = ({ data }: any) => (
   </div>
 );
 
-const AgentNode = ({ data }: any) => (
+const AgentNode = ({ data }: NodeProps<Node<AgentNodeData>>) => (
   <div className="px-4 py-3 shadow-lg rounded-md bg-[#1a1a1a] border border-emerald-500/30 min-w-[180px]">
     <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-emerald-500" />
     <div className="flex items-center gap-2">
