@@ -12,7 +12,11 @@ const tabs = [
   { id: 'cpo', label: 'CPO Schema', icon: Database },
   { id: 'agents', label: 'AI Agents', icon: Cpu },
   { id: 'offer-engine', label: 'Offer Engine', icon: DollarSign },
-];
+] as const;
+
+const TABS_LABELS = Object.fromEntries(
+  tabs.map((tab) => [tab.id, tab.label])
+) as Record<string, string>;
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('graph');
@@ -63,7 +67,7 @@ export default function App() {
         <header className="h-16 border-b border-gray-800 flex items-center px-6 bg-[#0a0a0a]/80 backdrop-blur-sm z-10">
           <h2 className="text-lg font-medium text-white flex items-center gap-2">
             <LayoutDashboard className="w-5 h-5 text-gray-500" />
-            {tabs.find(t => t.id === activeTab)?.label}
+            {TABS_LABELS[activeTab]}
           </h2>
         </header>
         
