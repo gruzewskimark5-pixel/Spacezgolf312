@@ -6,16 +6,24 @@ import { CpoSchema } from './components/CpoSchema';
 import { AgentsView } from './components/AgentsView';
 import { OfferEngineView } from './components/OfferEngineView';
 
+const TABS = [
+const tabs = [
+  { id: 'graph', label: 'Execution Graph', icon: Network },
+  { id: 'pipelines', label: 'Pipelines', icon: GitMerge },
+  { id: 'cpo', label: 'CPO Schema', icon: Database },
+  { id: 'agents', label: 'AI Agents', icon: Cpu },
+  { id: 'offer-engine', label: 'Offer Engine', icon: DollarSign },
+] as const;
+
+const TABS_MAP = Object.fromEntries(TABS.map(tab => [tab.id, tab]));
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState<string>('graph');
+
+];
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('graph');
-
-  const tabs = [
-    { id: 'graph', label: 'Execution Graph', icon: Network },
-    { id: 'pipelines', label: 'Pipelines', icon: GitMerge },
-    { id: 'cpo', label: 'CPO Schema', icon: Database },
-    { id: 'agents', label: 'AI Agents', icon: Cpu },
-    { id: 'offer-engine', label: 'Offer Engine', icon: DollarSign },
-  ];
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] text-gray-300 font-sans overflow-hidden">
@@ -29,7 +37,7 @@ export default function App() {
         <div className="p-4 flex-1">
           <div className="text-xs font-mono text-gray-500 mb-4 uppercase tracking-wider">Operator Views</div>
           <nav className="space-y-1">
-            {tabs.map((tab) => {
+            {TABS.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               return (
@@ -63,7 +71,7 @@ export default function App() {
         <header className="h-16 border-b border-gray-800 flex items-center px-6 bg-[#0a0a0a]/80 backdrop-blur-sm z-10">
           <h2 className="text-lg font-medium text-white flex items-center gap-2">
             <LayoutDashboard className="w-5 h-5 text-gray-500" />
-            {tabs.find(t => t.id === activeTab)?.label}
+            {TABS_MAP[activeTab]?.label}
           </h2>
         </header>
         
