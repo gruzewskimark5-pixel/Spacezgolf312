@@ -1,4 +1,4 @@
-import { Database, Key, Type, Clock, AlertTriangle, Target, TrendingUp, Zap } from 'lucide-react';
+import { Database, Type, Clock, AlertTriangle, Target, TrendingUp, Zap } from 'lucide-react';
 
 const tables = [
   {
