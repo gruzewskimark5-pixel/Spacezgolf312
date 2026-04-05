@@ -11,7 +11,7 @@ import {
   Position,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { Zap, Database, GitMerge, Cpu, Network } from 'lucide-react';
+import { Zap, GitMerge, Cpu, Network } from 'lucide-react';
 
 // Custom Node Components
 const TriggerNode = ({ data }: any) => (
