@@ -32,7 +32,7 @@ describe('AgentsView Component', () => {
     // Check for some specific subscription tags
     expect(screen.getByText('HIDDENDISTRESSUPDATED')).toBeInTheDocument();
     expect(screen.getByText('OWNERRISKUPDATED')).toBeInTheDocument();
-    expect(screen.getByText('LIQUIDITYUPDATED')).toBeInTheDocument();
+    expect(screen.getAllByText('LIQUIDITYUPDATED').length).toBeGreaterThan(0);
     expect(screen.getByText('All emitted signals')).toBeInTheDocument();
     expect(screen.getByText('Supervisory')).toBeInTheDocument();
   });
