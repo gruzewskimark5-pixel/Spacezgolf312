@@ -7,7 +7,6 @@ import { AgentsView } from './components/AgentsView';
 import { OfferEngineView } from './components/OfferEngineView';
 
 const TABS = [
-const tabs = [
   { id: 'graph', label: 'Execution Graph', icon: Network },
   { id: 'pipelines', label: 'Pipelines', icon: GitMerge },
   { id: 'cpo', label: 'CPO Schema', icon: Database },
@@ -19,11 +18,6 @@ const TABS_MAP = Object.fromEntries(TABS.map(tab => [tab.id, tab]));
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('graph');
-
-];
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState('graph');
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] text-gray-300 font-sans overflow-hidden">
