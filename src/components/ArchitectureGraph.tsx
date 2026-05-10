@@ -1,20 +1,43 @@
 import { useCallback, useMemo } from 'react';
 import {
   ReactFlow,
-  MiniMap,
   Controls,
   Background,
   useNodesState,
   useEdgesState,
-  MarkerType,
   Handle,
   Position,
 } from '@xyflow/react';
+import type { Node, Edge, NodeProps, NodeTypes } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { Zap, Database, GitMerge, Cpu, Network } from 'lucide-react';
+import { Zap, GitMerge, Cpu, Network } from 'lucide-react';
+
+interface TriggerNodeData {
+  label: string;
+}
+
+interface PipelineNodeData {
+  label: string;
+  tasks: string;
+}
+
+interface EventNodeData {
+  label: string;
+}
+
+interface AgentNodeData {
+  label: string;
+}
+
+type TriggerNode = Node<TriggerNodeData, 'trigger'>;
+type PipelineNode = Node<PipelineNodeData, 'pipeline'>;
+type EventNode = Node<EventNodeData, 'event'>;
+type AgentNode = Node<AgentNodeData, 'agent'>;
+
+type AppNode = TriggerNode | PipelineNode | EventNode | AgentNode;
 
 // Custom Node Components
-const TriggerNode = ({ data }: any) => (
+const TriggerNode = ({ data }: NodeProps<TriggerNode>) => (
   <div className="px-4 py-2 shadow-lg rounded-md bg-[#1a1a1a] border border-orange-500/30 min-w-[150px]">
     <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-orange-500" />
     <div className="flex items-center gap-2">
@@ -24,7 +47,7 @@ const TriggerNode = ({ data }: any) => (
   </div>
 );
 
-const PipelineNode = ({ data }: any) => (
+const PipelineNode = ({ data }: NodeProps<PipelineNode>) => (
   <div className="px-4 py-3 shadow-lg rounded-md bg-[#1a1a1a] border border-blue-500/30 min-w-[200px]">
     <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-blue-500" />
     <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-blue-500" />
@@ -36,7 +59,7 @@ const PipelineNode = ({ data }: any) => (
   </div>
 );
 
-const EventNode = ({ data }: any) => (
+const EventNode = ({ data }: NodeProps<EventNode>) => (
   <div className="px-4 py-2 shadow-lg rounded-full bg-[#1a1a1a] border border-purple-500/30 min-w-[180px] text-center">
     <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-purple-500" />
     <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-purple-500" />
@@ -47,7 +70,7 @@ const EventNode = ({ data }: any) => (
   </div>
 );
 
-const AgentNode = ({ data }: any) => (
+const AgentNode = ({ data }: NodeProps<AgentNode>) => (
   <div className="px-4 py-3 shadow-lg rounded-md bg-[#1a1a1a] border border-emerald-500/30 min-w-[180px]">
     <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-emerald-500" />
     <div className="flex items-center gap-2">
@@ -57,7 +80,7 @@ const AgentNode = ({ data }: any) => (
   </div>
 );
 
-const initialNodes = [
+const initialNodes: AppNode[] = [
   // Triggers
   { id: 't1', type: 'trigger', position: { x: 50, y: 100 }, data: { label: 'OWNER_UPDATED' } },
   { id: 't2', type: 'trigger', position: { x: 50, y: 180 }, data: { label: 'DISTRESSEVENTCREATED' } },
@@ -88,7 +111,7 @@ const initialNodes = [
   { id: 'a4', type: 'agent', position: { x: 1050, y: 600 }, data: { label: 'Learning Loop Agent' } },
 ];
 
-const initialEdges = [
+const initialEdges: Edge[] = [
   // Triggers to Pipelines
   { id: 'e-t1-p1', source: 't1', target: 'p1', animated: true, style: { stroke: '#f97316' } },
   { id: 'e-t2-p1', source: 't2', target: 'p1', animated: true, style: { stroke: '#f97316' } },
@@ -124,16 +147,16 @@ const initialEdges = [
   { id: 'e-e4-a4', source: 'e4', target: 'a4', animated: true, style: { stroke: '#a855f7' } },
 ];
 
-export function ArchitectureGraph() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+const NODE_TYPES: NodeTypes = {
+  trigger: TriggerNode,
+  pipeline: PipelineNode,
+  event: EventNode,
+  agent: AgentNode,
+};
 
-  const nodeTypes = useMemo(() => ({
-    trigger: TriggerNode,
-    pipeline: PipelineNode,
-    event: EventNode,
-    agent: AgentNode,
-  }), []);
+export function ArchitectureGraph() {
+  const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
     <div className="w-full h-full bg-[#050505] relative">
@@ -146,7 +169,7 @@ export function ArchitectureGraph() {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        nodeTypes={nodeTypes}
+        nodeTypes={NODE_TYPES}
         fitView
         className="dark"
       >
